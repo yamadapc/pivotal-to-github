@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+var pivotalToGithub = require('..');
+var program = require('commander');
+var assert = require('assert');
+
+var AssertionError = assert.AssertionError;
+
+program
+  .usage('[options]')
+  .option('--pivotal-token <token>', 'The Pivotal API token to use')
+  .option('--pivotal-id <id>', 'The ID of the Pivotal Project to migrate')
+  .option('--github-token <token>', 'The GitHub API token to use')
+  .option('--github-user <user>', 'The GitHub User to migrate to')
+  .option('--github-repo <repo>', 'The GitHub Repository to migrate to')
+  .once('-h', function() {
+    program.outputHelp();
+    process.exit(0);
+  })
+  .once('--help', function() {
+    program.outputHelp();
+    process.exit(0);
+  })
+  .parse(process.argv);
+
+try {
+  pivotalToGithub(program, function(err) {
+    console.error('ERROR:', err.message);
+    process.exit(1);
+  });
+} catch(err) {
+  if(err instanceof AssertionError) {
+    console.error('ERROR:', err.message);
+    console.error('See `pivotal-to-github --help` for usage');
+    process.exit(2);
+  } else {
+    throw err;
+  }
+}
