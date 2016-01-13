@@ -1,5 +1,7 @@
 pivotal-to-github
 =================
+![]([![npm](https://img.shields.io/npm/dm/pivotal-to-github.svg)]())
+- - -
 Transfers issues from Pivotal to GitHub.
 
 ## Installing
