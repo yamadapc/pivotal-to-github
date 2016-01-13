@@ -12,14 +12,6 @@ program
   .option('--github-token <token>', 'The GitHub API token to use')
   .option('--github-user <user>', 'The GitHub User to migrate to')
   .option('--github-repo <repo>', 'The GitHub Repository to migrate to')
-  .once('-h', function() {
-    program.outputHelp();
-    process.exit(0);
-  })
-  .once('--help', function() {
-    program.outputHelp();
-    process.exit(0);
-  })
   .parse(process.argv);
 
 try {
