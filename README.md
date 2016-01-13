@@ -1,6 +1,9 @@
 pivotal-to-github
 =================
-![]([![npm](https://img.shields.io/npm/dm/pivotal-to-github.svg)]())
+[![npm downloads per month](https://img.shields.io/npm/dm/pivotal-to-github.svg)](https://www.npmjs.com/package/pivotal-to-github)
+[![npm downloads total](https://img.shields.io/npm/dt/pivotal-to-github.svg)](https://www.npmjs.com/package/pivotal-to-github)
+[![npm version](https://img.shields.io/npm/v/pivotal-to-github.svg)](https://www.npmjs.com/package/pivotal-to-github)
+![license](https://img.shields.io/npm/l/pivotal-to-github.svg)
 - - -
 Transfers issues from Pivotal to GitHub.
 
