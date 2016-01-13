@@ -1,6 +1,6 @@
 {
   "name": "pivotal-to-github",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Transfers issues from Pivotal to GitHub",
   "main": "lib/index.js",
   "homepage": "https://github.com/yamadapc/pivotal-to-github",
