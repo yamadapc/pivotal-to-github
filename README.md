@@ -8,7 +8,6 @@ $ npm install -g pivotal-to-github
 ```
 
 ## Usage
-
 ```
 $ pivotal-to-github --pivotal-token $PIVOTAL_API_TOKEN --github-token $GITHUB_API_TOKEN --github-user yamadapc --github-repo pivotal-to-github --pivotal-id 1234
 Fetching Pivotal tickets...
