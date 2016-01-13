@@ -12,7 +12,7 @@ env:
 # http://eslint.org/docs/rules/
 rules:
   # Possible Errors
-  comma-dangle: [2, never]
+  comma-dangle: 0
   no-cond-assign: 2
   no-console: 0
   no-constant-condition: 2
@@ -50,7 +50,7 @@ rules:
   default-case: 0
   dot-location: 0
   dot-notation: 0
-  eqeqeq: 2
+  eqeqeq: 0
   guard-for-in: 2
   no-alert: 2
   no-caller: 2
@@ -59,7 +59,7 @@ rules:
   no-else-return: 0
   no-empty-label: 2
   no-empty-pattern: 2
-  no-eq-null: 2
+  no-eq-null: 0
   no-eval: 2
   no-extend-native: 2
   no-extra-bind: 2
