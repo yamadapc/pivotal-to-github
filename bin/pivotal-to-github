@@ -1,7 +1,11 @@
 #!/usr/bin/env node
+var _ = require('lodash');
+var assert = require('assert');
+var child_process = require('child_process');
+var path = require('path');
 var pivotalToGithub = require('..');
 var program = require('commander');
-var assert = require('assert');
+var read = require('read');
 
 var AssertionError = assert.AssertionError;
 
@@ -15,9 +19,12 @@ program
   .parse(process.argv);
 
 try {
-  pivotalToGithub(program, function(err) {
-    console.error('ERROR:', err.message);
-    process.exit(1);
+  readMissingProgram(program, function(err, program) {
+    if(err) throw err;
+    pivotalToGithub(program, function(err) {
+      console.error('ERROR:', err.message);
+      process.exit(1);
+    });
   });
 } catch(err) {
   if(err instanceof AssertionError) {
@@ -26,5 +33,108 @@ try {
     process.exit(2);
   } else {
     throw err;
+  }
+}
+
+function readMissingProgram(program, cb) {
+  if(!program.githubToken) {
+    var fallback =
+      process.env.GITHUB_TOKEN || process.env.GITHUB_API_TOKEN;
+    var fallbackText =
+      fallback ? '(load from ENV):' : '(open github.com):';
+    return read({
+      prompt: 'GitHub token ' + fallbackText,
+    }, function(err, token) {
+      if(!token) {
+        if(fallback) {
+          token = fallback;
+          console.log('--> Using ' + _.repeat('*', token.length - 4) + token.slice(-4))
+        } else {
+          console.error('Not implemented')
+          return;
+        }
+      }
+
+      program.githubToken = token;
+      readMissingProgram(program, cb);
+    });
+  }
+
+  if(!program.githubRepo) {
+    var fallback = path.basename(process.cwd());
+    return read({
+      prompt: 'GitHub repository (' + fallback + '): '
+    }, function(err, repo) {
+      if(!repo) {
+        repo = fallback;
+        console.log('--> Using ' + repo);
+      }
+
+      program.githubRepo = repo;
+      readMissingProgram(program, cb);
+    });
+  }
+
+  if(!program.githubUser) {
+    var fallback;
+    try {
+      fallback = child_process
+        .execSync('git config --get user.name')
+        .toString()
+        .split('\n')[0];
+    } catch(err) {
+    }
+    var fallbackText = fallback ? ' (' + fallback + ')' : '';
+
+    return read({
+      prompt: 'GitHub user' + fallbackText + ': '
+    }, function(err, user) {
+      if(!user) {
+        if(!fallback) {
+          throw new Error('Can\'t go on without an user')
+        }
+        user = fallback;
+        console.log('--> Using ' + user);
+      }
+
+      program.githubUser = user;
+      readMissingProgram(program, cb);
+    });
+  }
+
+  if(!program.pivotalId) {
+    return read({
+      prompt: 'Pivotal ID: '
+    }, function(err, id) {
+      if(!id) {
+        throw new Error('Can\'t go on without the Pivotal ID')
+      }
+
+      program.pivotalId = id;
+      readMissingProgram(program, cb);
+    });
+  }
+
+  if(!program.pivotalToken) {
+    var fallback =
+      process.env.PIVOTAL_TOKEN || process.env.PIVOTAL_API_TOKEN;
+    var fallbackText =
+      fallback ? '(load from ENV):' : '(open pivotaltracker.com):';
+    return read({
+      prompt: 'Pivotal token ' + fallbackText,
+    }, function(err, token) {
+      if(!token) {
+        if(fallback) {
+          token = fallback;
+          console.log('--> Using ' + _.repeat('*', token.length - 4) + token.slice(-4))
+        } else {
+          console.error('Not implemented')
+          return;
+        }
+      }
+
+      program.pivotalToken = token;
+      readMissingProgram(program, cb);
+    });
   }
 }
