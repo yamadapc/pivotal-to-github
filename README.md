@@ -14,6 +14,9 @@ $ npm install -g pivotal-to-github
 ```
 
 ## Interactive Usage
+If required command-line flags are missing (see `pivotal-to-gitub --help` for
+the flags, you'll be prompted for the values - and we'll try our best to guess
+them):
 ```
 $ pivotal-to-github
 Github Token (load from ENV):
