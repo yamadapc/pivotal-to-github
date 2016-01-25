@@ -13,6 +13,23 @@ Transfers issues from Pivotal to GitHub.
 $ npm install -g pivotal-to-github
 ```
 
+## Interactive Usage
+```
+$ pivotal-to-github
+Github Token (load from ENV):
+--> Using ************************************0123
+GitHub repository (pivotal-to-github):
+--> Using pivotal-to-github
+GitHub user (yamadapc):
+--> Using yamadapc
+Pivotal ID: 1234
+Pivotal token (load from ENV):
+--> Using ****************************0123
+Fetching Pivotal tickets...
+--> Fetching stories...
+# Goes on with progress-bar and fancy stuff
+```
+
 ## Usage
 ```
 $ pivotal-to-github --pivotal-token $PIVOTAL_API_TOKEN --github-token $GITHUB_API_TOKEN --github-user yamadapc --github-repo pivotal-to-github --pivotal-id 1234

@@ -18,22 +18,26 @@ program
   .option('--github-repo <repo>', 'The GitHub Repository to migrate to')
   .parse(process.argv);
 
-try {
-  readMissingProgram(program, function(err, program) {
-    if(err) throw err;
-    pivotalToGithub(program, function(err) {
-      console.error('ERROR:', err.message);
-      process.exit(1);
-    });
-  });
-} catch(err) {
+function onError(err) {
   if(err instanceof AssertionError) {
-    console.error('ERROR:', err.message);
+    console.error('ERROR:', err.message || err);
     console.error('See `pivotal-to-github --help` for usage');
     process.exit(2);
+  } else if(process.env.NODE_ENV !== 'development') {
+    console.error('ERROR:', err.message || err);
+    process.exit(1);
   } else {
     throw err;
   }
+}
+
+try {
+  readMissingProgram(program, function(err, program) {
+    if(err) return onError(err);
+    pivotalToGithub(program, onError);
+  });
+} catch(err) {
+  onError(err)
 }
 
 function readMissingProgram(program, cb) {
@@ -91,7 +95,7 @@ function readMissingProgram(program, cb) {
     }, function(err, user) {
       if(!user) {
         if(!fallback) {
-          throw new Error('Can\'t go on without an user')
+          return cb(new Error('Can\'t go on without an user'));
         }
         user = fallback;
         console.log('--> Using ' + user);
@@ -107,7 +111,7 @@ function readMissingProgram(program, cb) {
       prompt: 'Pivotal ID: '
     }, function(err, id) {
       if(!id) {
-        throw new Error('Can\'t go on without the Pivotal ID')
+        return cb(new Error('Can\'t go on without the Pivotal ID'));
       }
 
       program.pivotalId = id;
@@ -137,4 +141,6 @@ function readMissingProgram(program, cb) {
       readMissingProgram(program, cb);
     });
   }
+
+  cb(null, program);
 }
