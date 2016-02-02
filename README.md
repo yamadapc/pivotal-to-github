@@ -47,3 +47,6 @@ $ pivotal-to-github --pivotal-token $PIVOTAL_API_TOKEN --github-token $GITHUB_AP
 
 ## License
 This code is published under the MIT license.
+
+## Donations
+Would you like to buy me a beer? Send bitcoin to 3JjxJydvoJjTrhLL86LGMc8cNB16pTAF3y
