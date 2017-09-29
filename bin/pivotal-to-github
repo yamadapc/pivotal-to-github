@@ -14,7 +14,7 @@ program
   .option('--pivotal-token <token>', 'The Pivotal API token to use')
   .option('--pivotal-id <id>', 'The ID of the Pivotal Project to migrate')
   .option('--github-token <token>', 'The GitHub API token to use')
-  .option('--github-user <user>', 'The GitHub User to migrate to')
+  .option('--github-user <user>', 'The GitHub User/Org to migrate to')
   .option('--github-repo <repo>', 'The GitHub Repository to migrate to')
   .parse(process.argv);
 
@@ -91,7 +91,7 @@ function readMissingProgram(program, cb) {
     var fallbackText = fallback ? ' (' + fallback + ')' : '';
 
     return read({
-      prompt: 'GitHub user' + fallbackText + ': '
+      prompt: 'GitHub user or organization' + fallbackText + ': '
     }, function(err, user) {
       if(!user) {
         if(!fallback) {
@@ -108,10 +108,10 @@ function readMissingProgram(program, cb) {
 
   if(!program.pivotalId) {
     return read({
-      prompt: 'Pivotal ID: '
+      prompt: 'Pivotal Project ID: '
     }, function(err, id) {
       if(!id) {
-        return cb(new Error('Can\'t go on without the Pivotal ID'));
+        return cb(new Error('Can\'t go on without the Pivotal Project ID'));
       }
 
       program.pivotalId = id;
